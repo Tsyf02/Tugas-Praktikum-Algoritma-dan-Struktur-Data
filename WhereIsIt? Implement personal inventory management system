@@ -1,0 +1,142 @@
+#include <iostream>
+#include <string>
+#include <limits> // untuk mengisi limit
+
+using namespace std;
+
+const int MAX_BARANG = 100; // maksimal banyaknya jumlah item
+
+struct Barang {
+    int id;
+    string nama;
+    string kategori;
+    string lokasi;
+    string status;
+};
+
+Barang daftarBarang[MAX_BARANG]; // "Array" disini "sifat statis" (ukuran nya tetap 100 udah ditentukan sejak awal). Maka "tidak bisa" + atau - secara dinamis saat program berjalan alasannya karena semua elemen itu sudah dialokasikan ke memori sejak awal.
+int jumlahBarang = 0; 
+
+//Tampilan menu dari kode kami :)
+void tampilkanMenu() {
+    cout << "================ "WhereIsIt? – Sistem Manajemen Penyimpanan BARANG Pribadi Berbasis Web" ================" << endl;
+    cout << "1. Tambah Barang" << endl;
+    cout << "2. Lihat Daftar Inventaris" << endl;
+    cout << "3. Update Status Barang" << endl;
+    cout << "4. Keluar" << endl;
+    cout << "Pilih Menu [1-4]: ";
+}
+
+
+void lihatDaftarInventaris() {
+    if (jumlahBarang == 0) {
+        cout << "Tidak ada barang dalam inventaris." << endl;
+        return;
+    }
+
+    cout << "ID | Nama Barang | Kategori | Lokasi | Status" << endl;
+    cout << "--------------------------------------------------" << endl;
+    for (int i = 0; i < jumlahBarang; ++i) {
+        cout << daftarBarang[i].id << " | " << daftarBarang[i].nama << " | "
+             << daftarBarang[i].kategori << " | " << daftarBarang[i].lokasi
+             << " | " << daftarBarang[i].status << endl;
+    }
+}
+
+void tambahBarang() {
+    if (jumlahBarang >= MAX_BARANG) {
+        cout << "Inventaris penuh! Tidak dapat menambahkan barang baru." << endl;
+        return;
+    }
+
+    Barang barangBaru;
+    cout << "Masukkan ID Barang: ";
+    while (!(cin >> barangBaru.id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // CIN ignore ini buat buang karakter yg masih tersisa di buffer input. dan untuk kode selanjutnya dibuang sebanyak mungkin karakternya sampai nanti ketemu newline.
+        cout << "ID harus berupa angka. Masukkan ID Barang: ";
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Masukkan Nama Barang: ";
+    getline(cin, barangBaru.nama);
+
+    cout << "Masukkan Kategori: ";
+    getline(cin, barangBaru.kategori);
+
+    cout << "Masukkan Lokasi: ";
+    getline(cin, barangBaru.lokasi);
+
+    cout << "Masukkan Status: ";
+    getline(cin, barangBaru.status);
+
+    daftarBarang[jumlahBarang] = barangBaru;
+    jumlahBarang++;
+    cout << ">> Barang berhasil ditambahkan!" << endl;
+}
+
+void updateStatusBarang() {
+    if (jumlahBarang == 0) {
+        cout << "Tidak ada barang dalam inventaris." << endl;
+        return;
+    }
+
+    int id;
+    cout << "Masukkan ID Barang yang akan diubah: ";
+    while (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        cout << "(ID harus berupa angka) Masukkan ID Barang: ";
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    bool ditemukan = false;
+    for (int i = 0; i < jumlahBarang; ++i) {
+        if (daftarBarang[i].id == id) {
+            ditemukan = true;
+            cout << "Barang Anda ditemukan: " << daftarBarang[i].nama << endl;
+            cout << "Ubah Status (Ada/Dipinjam/Hilang/Habis): ";
+            getline(cin, daftarBarang[i].status);
+            cout << ">> Status Barang diperbarui!" << endl;
+            break;
+        }
+    }
+
+    if (!ditemukan) {
+        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
+    }
+}
+
+int main() {
+    int pilihan;
+    do {
+        tampilkanMenu();
+        while (!(cin >> pilihan)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Pilihan harus berupa angka. Silakan coba lagi: ";
+            tampilkanMenu();
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (pilihan) {
+            case 1:
+                tambahBarang();
+                break;
+            case 2:
+                lihatDaftarInventaris();
+                break;
+            case 3:
+                updateStatusBarang();
+                break;
+            case 4:
+                cout << "Keluar dari program." << endl;
+                break;
+            default:
+                cout << "Pilihan Anda tidak valid. Silakan coba lagi." << endl;
+        }
+        cout << endl;
+    } while (pilihan != 4);
+
+    return 0;
+}
