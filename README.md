@@ -1,11 +1,14 @@
 # Tugas-Praktikum-Algoritma-dan-Struktur-Data
+
           WhereIsIt? — Personal Inventory Management System
+
           
 **Overview**
 
  Merupakan sistem manajemen inventaris pribadi berbasis baris perintah terminal antarmuka (CLI) yang membantu pengguna mencatat, mengelola, dan memantau barang-barang pribadi yang ditulis dalam Bahasa Pemrograman C++. Dirancang untuk penghuni kamar kos atau siapa saja yang ingin mencatat dan melacak barang-barang pribadi secara terstruktur, lengkap dengan lokasi, kondisi, stok, dan riwayat aktivitas.
  Program menyimpan data secara persisten dalam file teks berformat delimiter sehingga data tidak hilang saat program ditutup.
 Program ditulis murni dalam C++ standar (C++11) tanpa library eksternal, mengimplementasikan manajemen memori heap secara manual, algoritma Bubble Sort pada parallel arrays, Shift-Left Deletion, Circular Buffer untuk log, serta File I/O dengan teknik delimiter escaping.
+
 
 **Fitur**
 
